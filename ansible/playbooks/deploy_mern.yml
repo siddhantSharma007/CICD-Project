@@ -1,0 +1,36 @@
+---
+- name: Deploy MERN Stack Application
+  hosts: mern_servers
+  become: true
+  tasks:
+    - name: Install Node.js and npm
+      apt:
+        name: 
+          - nodejs
+          - npm
+        state: present
+      become: yes
+
+    - name: Clone Git repository
+      git:
+        repo: https://github.com/yourusername/your-repo.git
+        dest: /opt/mern_app
+      become: yes
+
+    - name: Install npm dependencies
+      command: npm install
+      args:
+        chdir: /opt/mern_app
+      become: yes
+
+    - name: Build React app
+      command: npm run build
+      args:
+        chdir: /opt/mern_app/client
+      become: yes
+
+    - name: Start Node.js server
+      command: node server.js
+      args:
+        chdir: /opt/mern_app
+      become: yes
