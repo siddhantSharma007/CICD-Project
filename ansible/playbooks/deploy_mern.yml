@@ -1,7 +1,7 @@
----
 - name: Deploy MERN Stack Application
-  hosts: mern_servers
-  become: true
+  hosts: localhost
+  connection: local
+  gather_facts: false
   tasks:
     - name: Install Node.js and npm
       apt:
@@ -30,7 +30,7 @@
       become: yes
 
     - name: Start Node.js server
-      command: node server.js
+      command: node server.js  # Assuming your server file is named server.js
       args:
         chdir: /opt/mern_app
       become: yes
